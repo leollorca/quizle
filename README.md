@@ -1,1 +1,1 @@
-Welcome to Quizzle!
+Welcome to Quizle!

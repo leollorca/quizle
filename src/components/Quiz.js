@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
+import Question from "../components/Question";
 
 export default function Quiz(props) {
-  const [quizData, setQuizData] = useState([]);
+  const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
     fetch(
@@ -9,9 +10,13 @@ export default function Quiz(props) {
     )
       .then((res) => res.json())
       .then((data) => {
-        setQuizData(data.results);
+        setQuestions(data.results);
       });
   }, []);
 
-  return <div className="quiz--container">{props.difficulty}</div>;
+  const questionElements = questions.map((question) => (
+    <Question question={question} />
+  ));
+
+  return <div className="quiz--container">{questionElements}</div>;
 }
