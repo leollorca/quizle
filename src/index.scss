@@ -21,12 +21,14 @@
       margin-bottom: 32px;
     }
 
-    button {
+    input {
+      margin: 0 16px;
       padding: 8px 20px;
       font-family: "Poppins";
       font-size: 16px;
       font-weight: 400;
       color: #f7dcbb;
+      text-transform: capitalize;
       border: 1px solid #772ce8;
       border-radius: 100px;
       background-color: #772ce8;
@@ -40,9 +42,18 @@
     }
 
     .quiz--container {
-      padding: 64px;
-      border: 1px solid #772ce8;
-      border-radius: 10px;
+      max-width: 400px;
+      text-align: left;
+
+      .question--container {
+        margin-bottom: 32px;
+
+        .category {
+          font-size: 12px;
+          font-weight: 700;
+          text-transform: uppercase;
+        }
+      }
     }
   }
 }
