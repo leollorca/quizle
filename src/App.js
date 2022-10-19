@@ -9,9 +9,9 @@ export default function App() {
     setIsQuizStarted(true);
   }
 
-  function handleDifficulty(e) {
-    e.preventDefault();
-    setDifficulty(e.target.value);
+  function handleDifficulty(event) {
+    event.preventDefault();
+    setDifficulty(event.target.value);
     startQuiz();
   }
 
@@ -20,12 +20,11 @@ export default function App() {
       {isQuizStarted ? (
         <Quiz difficulty={difficulty} />
       ) : (
-        <>
-          <h1>Let's start a quiz!</h1>
+        <div className="difficulties">
           <input type="submit" value="easy" onClick={handleDifficulty} />
           <input type="submit" value="medium" onClick={handleDifficulty} />
           <input type="submit" value="hard" onClick={handleDifficulty} />
-        </>
+        </div>
       )}
     </main>
   );
