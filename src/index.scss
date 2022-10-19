@@ -1,57 +1,113 @@
 @import url("https://fonts.googleapis.com/css2?family=Inspiration&family=Poppins:wght@100;400;700&display=swap");
 
+$poppins: "Poppins";
+$white: #f1f1f1;
+$purple: #772ce8;
+$pastelPurple: #dfd7ea;
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 
   body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    font-family: "Poppins";
+    font-family: $poppins;
+    font-size: 14px;
     font-weight: 400;
     text-align: center;
-    color: #772ce8;
-    background-color: #f7dcbb;
+    color: $purple;
+    background-color: $white;
 
-    h1 {
-      font-weight: 700;
-      margin-bottom: 32px;
-    }
+    .difficulties {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
 
-    input {
-      margin: 0 16px;
-      padding: 8px 20px;
-      font-family: "Poppins";
-      font-size: 16px;
-      font-weight: 400;
-      color: #f7dcbb;
-      text-transform: capitalize;
-      border: 1px solid #772ce8;
-      border-radius: 100px;
-      background-color: #772ce8;
-      cursor: pointer;
-      transition: 0.3s;
+      input {
+        margin: 0 8px;
+        padding: 8px 20px;
+        font-family: $poppins;
+        font-size: 14px;
+        font-weight: 400;
+        color: $purple;
+        text-transform: capitalize;
+        border: 1px solid $purple;
+        border-radius: 100px;
+        background-color: $white;
+        cursor: pointer;
+        transition: 0.2s;
 
-      &:hover {
-        color: #772ce8;
-        background-color: #f7dcbb;
+        &:hover {
+          color: $white;
+          background-color: $purple;
+        }
       }
     }
 
-    .quiz--container {
-      max-width: 400px;
-      text-align: left;
+    .quiz {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 64px 0 128px 0;
 
-      .question--container {
-        margin-bottom: 32px;
+      .questions {
+        list-style: none;
 
-        .category {
-          font-size: 12px;
-          font-weight: 700;
-          text-transform: uppercase;
+        .question {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          margin-bottom: 64px;
+          padding: 64px;
+          border-radius: 10px;
+          background-color: $pastelPurple;
+
+          .category {
+            margin-bottom: 8px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+          }
+
+          .answers {
+            display: flex;
+            margin-top: 32px;
+            list-style: none;
+
+            .answer {
+              margin-right: 16px;
+              padding: 8px 20px;
+              border: 1px solid $purple;
+              border-radius: 100px;
+              cursor: pointer;
+              transition: 0.2s;
+
+              &:hover {
+                color: $white;
+                background-color: $purple;
+              }
+            }
+          }
+        }
+      }
+
+      button {
+        margin-top: 64px;
+        padding: 8px 20px;
+        font-family: $poppins;
+        font-size: 14px;
+        font-weight: 400;
+        color: $white;
+        border: 1px solid $purple;
+        border-radius: 100px;
+        background-color: $purple;
+        cursor: pointer;
+        transition: 0.2s;
+
+        &:hover {
+          color: $purple;
+          background-color: $white;
         }
       }
     }

@@ -1,22 +1,41 @@
 import { useState, useEffect } from "react";
-import Question from "../components/Question";
+import Question from "./Question";
 
 export default function Quiz(props) {
-  const [questions, setQuestions] = useState([]);
+  const [questionsData, setQuestionsData] = useState([]);
 
   useEffect(() => {
     fetch(
-      `https://opentdb.com/api.php?amount=5&difficulty=${props.difficulty}&type=multiple`
+      `https://the-trivia-api.com/api/questions?limit=5&region=FR&difficulty=${props.difficulty}`
     )
       .then((res) => res.json())
       .then((data) => {
-        setQuestions(data.results);
+        setQuestionsData(data);
       });
   }, []);
 
-  const questionElements = questions.map((question) => (
-    <Question question={question} />
-  ));
+  const questions = questionsData.map((questionData) => {
+    const {
+      category,
+      question: entitled,
+      correctAnswer,
+      incorrectAnswers,
+    } = questionData;
 
-  return <div className="quiz--container">{questionElements}</div>;
+    return (
+      <Question
+        category={category}
+        entitled={entitled}
+        correctAnswer={correctAnswer}
+        incorrectAnswers={incorrectAnswers}
+      />
+    );
+  });
+
+  return (
+    <div className="quiz">
+      <div className="questions">{questions}</div>
+      <button>Submit</button>
+    </div>
+  );
 }
