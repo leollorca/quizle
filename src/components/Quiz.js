@@ -1,11 +1,20 @@
 import { useState, useEffect } from "react";
 import Question from "./Question";
 
-export default function Quiz(props) {
-  const [questionsData, setQuestionsData] = useState([]);
+export default function Quiz({ difficulty }) {
+  const [questions, setQuestions] = useState([]);
+  const [quizSubmitted, setQuizSubmitted] = useState(false);
+
+  useEffect(() => {
+    fetch(
+      `https://the-trivia-api.com/api/questions?limit=5&region=FR&difficulty=${difficulty}`
+    )
+      .then((response) => response.json())
+      .then((data) => formatData(data));
+  }, []);
 
   function formatData(data) {
-    setQuestionsData(
+    setQuestions(
       data.map((question) => {
         const {
           id,
@@ -15,7 +24,7 @@ export default function Quiz(props) {
           incorrectAnswers,
         } = question;
 
-        const answersData = incorrectAnswers.map((incorrectAnswer) => {
+        const answers = incorrectAnswers.map((incorrectAnswer) => {
           return {
             entitled: incorrectAnswer,
             isHeld: false,
@@ -23,29 +32,25 @@ export default function Quiz(props) {
           };
         });
 
-        answersData.push({
+        answers.push({
           entitled: correctAnswer,
           isHeld: false,
           isCorrect: true,
         });
 
-        const shuffledAnswers = answersData.sort(() => Math.random() - 0.5);
+        const shuffledAnswers = answers.sort(() => Math.random() - 0.5);
 
-        return { id, category, entitled, answersData: shuffledAnswers };
+        return { id, category, entitled, answers: shuffledAnswers };
       })
     );
   }
 
-  useEffect(() => {
-    fetch(
-      `https://the-trivia-api.com/api/questions?limit=5&region=FR&difficulty=${props.difficulty}`
-    )
-      .then((response) => response.json())
-      .then((data) => formatData(data));
-  }, []);
+  function submitAnswers() {
+    setQuizSubmitted(true);
+  }
 
-  const questions = questionsData.map((questionData) => {
-    const { id, category, entitled, answersData } = questionData;
+  const questionElements = questions.map((question) => {
+    const { id, category, entitled, answers } = question;
 
     return (
       <Question
@@ -53,15 +58,18 @@ export default function Quiz(props) {
         id={id}
         category={category}
         entitled={entitled}
-        answersData={answersData}
+        answers={answers}
+        quizSubmitted={quizSubmitted}
       />
     );
   });
 
   return (
     <div className="quiz">
-      <div className="questions">{questions}</div>
-      <button>Submit</button>
+      <div className="questions">{questionElements}</div>
+      <button onClick={submitAnswers}>
+        {quizSubmitted ? "New quiz" : "Submit"}
+      </button>
     </div>
   );
 }
