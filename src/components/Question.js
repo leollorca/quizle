@@ -1,23 +1,39 @@
+import { useState } from "react";
 import Answer from "./Answer";
 
 export default function Question(props) {
-  const { id, category, entitled, answersData } = props;
+  const [answers, setAnswers] = useState(props.answers);
 
-  const answers = answersData.map((answerData) => {
-    console.log(answerData);
+  function selectAnswer(event) {
+    setAnswers((prevAnswers) => {
+      return prevAnswers.map((prevAnswer) => {
+        if (event.target.innerText !== prevAnswer.entitled) {
+          return { ...prevAnswer, isHeld: false };
+        }
+        return { ...prevAnswer, isHeld: true };
+      });
+    });
+  }
+
+  const answerElements = answers.map(({ entitled, isCorrect, isHeld }) => {
     return (
       <Answer
-        entitled={answerData.entitled}
-        isCorrect={answerData.isCorrect}
-        isHeld={answerData.isHeld}
+        key={entitled}
+        questionId={props.id}
+        entitled={entitled}
+        isCorrect={isCorrect}
+        isHeld={isHeld}
+        selectAnswer={selectAnswer}
+        quizSubmitted={props.quizSubmitted}
       />
     );
   });
+
   return (
     <div className="question">
-      <div className="category">{category}</div>
-      <div className="entitled">{entitled}</div>
-      <ul className="answers">{answers}</ul>
+      <div className="category">{props.category}</div>
+      <div className="entitled">{props.entitled}</div>
+      <ul className="answers">{answerElements}</ul>
     </div>
   );
 }

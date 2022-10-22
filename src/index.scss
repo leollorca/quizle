@@ -57,7 +57,7 @@ $pastelPurple: #dfd7ea;
         .question {
           display: flex;
           flex-direction: column;
-          align-items: flex-start;
+          align-items: center;
           margin-bottom: 64px;
           padding: 64px;
           border-radius: 10px;
@@ -71,12 +71,11 @@ $pastelPurple: #dfd7ea;
           }
 
           .answers {
-            display: flex;
-            margin-top: 32px;
+            margin-top: 16px;
             list-style: none;
 
             .answer {
-              margin-right: 16px;
+              margin-top: 16px;
               padding: 8px 20px;
               border: 1px solid $purple;
               border-radius: 100px;
