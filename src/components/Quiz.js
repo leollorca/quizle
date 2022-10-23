@@ -3,25 +3,24 @@ import Question from "./Question";
 
 export default function Quiz({ difficulty }) {
   const [questions, setQuestions] = useState([]);
-  const [quizSubmitted, setQuizSubmitted] = useState(false);
+  const [isQuizSubmitted, setIsQuizSubmitted] = useState(false);
 
   useEffect(() => {
     fetch(
-      `https://the-trivia-api.com/api/questions?limit=5&region=FR&difficulty=${difficulty}`
+      `https://opentdb.com/api.php?amount=5&difficulty=${difficulty}&type=multiple&encode=url3986`
     )
       .then((response) => response.json())
       .then((data) => formatData(data));
-  }, []);
+  }, [difficulty]);
 
   function formatData(data) {
     setQuestions(
-      data.map((question) => {
+      data.results.map((question) => {
         const {
-          id,
           category,
           question: entitled,
-          correctAnswer,
-          incorrectAnswers,
+          correct_answer: correctAnswer,
+          incorrect_answers: incorrectAnswers,
         } = question;
 
         const answers = incorrectAnswers.map((incorrectAnswer) => {
@@ -40,26 +39,25 @@ export default function Quiz({ difficulty }) {
 
         const shuffledAnswers = answers.sort(() => Math.random() - 0.5);
 
-        return { id, category, entitled, answers: shuffledAnswers };
+        return { category, entitled, answers: shuffledAnswers };
       })
     );
   }
 
   function submitAnswers() {
-    setQuizSubmitted(true);
+    setIsQuizSubmitted(true);
   }
 
   const questionElements = questions.map((question) => {
-    const { id, category, entitled, answers } = question;
+    const { category, entitled, answers } = question;
 
     return (
       <Question
-        key={id}
-        id={id}
+        key={entitled}
         category={category}
         entitled={entitled}
         answers={answers}
-        quizSubmitted={quizSubmitted}
+        isQuizSubmitted={isQuizSubmitted}
       />
     );
   });
@@ -67,9 +65,7 @@ export default function Quiz({ difficulty }) {
   return (
     <div className="quiz">
       <div className="questions">{questionElements}</div>
-      <button onClick={submitAnswers}>
-        {quizSubmitted ? "New quiz" : "Submit"}
-      </button>
+      <button onClick={submitAnswers}>Submit</button>
     </div>
   );
 }
