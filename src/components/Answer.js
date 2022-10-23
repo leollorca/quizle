@@ -5,31 +5,31 @@ export default function Answer({
   selectAnswer,
   quizSubmitted,
 }) {
-  let styles = {
+  let answerStyle = {
     color: isHeld ? "#f1f1f1" : "",
     backgroundColor: isHeld ? "#772ce8" : "",
   };
 
   if (quizSubmitted) {
     if ((isHeld && isCorrect) || isCorrect) {
-      styles = {
+      answerStyle = {
         color: "#f1f1f1",
-        border: "1px solid #82C46F",
-        backgroundColor: "#82C46F",
+        border: "1px solid #06d6a0",
+        backgroundColor: "#06d6a0",
       };
     }
     if (isHeld && !isCorrect) {
-      styles = {
+      answerStyle = {
         color: "#f1f1f1",
-        border: "1px solid #F15757",
-        backgroundColor: "#F15757",
+        border: "1px solid #ef476f",
+        backgroundColor: "#ef476f",
       };
     }
   }
 
   return (
-    <li className="answer" style={styles} onClick={selectAnswer}>
-      {entitled}
+    <li className="answer" style={answerStyle} onClick={selectAnswer}>
+      {unescape(entitled)}
     </li>
   );
 }

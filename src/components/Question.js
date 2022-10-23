@@ -7,7 +7,7 @@ export default function Question(props) {
   function selectAnswer(event) {
     setAnswers((prevAnswers) => {
       return prevAnswers.map((prevAnswer) => {
-        if (event.target.innerText !== prevAnswer.entitled) {
+        if (event.target.innerText !== unescape(prevAnswer.entitled)) {
           return { ...prevAnswer, isHeld: false };
         }
         return { ...prevAnswer, isHeld: true };
@@ -24,16 +24,22 @@ export default function Question(props) {
         isCorrect={isCorrect}
         isHeld={isHeld}
         selectAnswer={selectAnswer}
-        quizSubmitted={props.quizSubmitted}
+        quizSubmitted={props.isQuizSubmitted}
       />
     );
   });
 
+  const answersStyle = {
+    pointerEvents: props.isQuizSubmitted ? "none" : "",
+  };
+
   return (
     <div className="question">
-      <div className="category">{props.category}</div>
-      <div className="entitled">{props.entitled}</div>
-      <ul className="answers">{answerElements}</ul>
+      <div className="category">{unescape(props.category)}</div>
+      <div className="entitled">{unescape(props.entitled)}</div>
+      <ul className="answers" style={answersStyle}>
+        {answerElements}
+      </ul>
     </div>
   );
 }
