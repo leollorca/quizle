@@ -7,7 +7,7 @@ export default function Quiz(props) {
 
   useEffect(() => {
     fetch(
-      `https://opentdb.com/api.php?amount=5&difficulty=${props.difficulty}&type=multiple&encode=url3986`
+      `https://the-trivia-api.com/api/questions?limit=5&region=FR&difficulty=${props.difficulty}`
     )
       .then((response) => response.json())
       .then((data) => formatData(data));
@@ -15,12 +15,12 @@ export default function Quiz(props) {
 
   function formatData(data) {
     setQuestions(
-      data.results.map((question) => {
+      data.map((question) => {
         const {
           category,
           question: entitled,
-          correct_answer: correctAnswer,
-          incorrect_answers: incorrectAnswers,
+          correctAnswer,
+          incorrectAnswers,
         } = question;
 
         const answers = incorrectAnswers.map((incorrectAnswer) => {
@@ -44,8 +44,38 @@ export default function Quiz(props) {
     );
   }
 
+  function selectAnswer(event) {
+    setQuestions((prevQuestions) => {
+      return prevQuestions.map((prevQuestion) => {
+        if (
+          prevQuestion.answers.find(
+            (answer) => answer.entitled === event.target.innerText
+          )
+        ) {
+          const answers = prevQuestion.answers.map((answer) => {
+            if (event.target.innerText !== answer.entitled) {
+              return { ...answer, isHeld: false };
+            }
+            return { ...answer, isHeld: true };
+          });
+          return { ...prevQuestion, answers };
+        }
+        return prevQuestion;
+      });
+    });
+  }
+
   function submitAnswers() {
-    setIsQuizSubmitted(true);
+    let filled = true;
+    questions.forEach((question) => {
+      if (!question.answers.find((answer) => answer.isHeld)) {
+        filled = false;
+      }
+    });
+    if (!filled) {
+      return console.log("Quiz not fully filled!");
+    }
+    return setIsQuizSubmitted(true);
   }
 
   const questionElements = questions.map((question) => {
@@ -57,6 +87,7 @@ export default function Quiz(props) {
         category={category}
         entitled={entitled}
         answers={answers}
+        selectAnswer={selectAnswer}
         isQuizSubmitted={isQuizSubmitted}
       />
     );
