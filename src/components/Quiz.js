@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
 import Question from "./Question";
 
-export default function Quiz({ difficulty }) {
+export default function Quiz(props) {
   const [questions, setQuestions] = useState([]);
   const [isQuizSubmitted, setIsQuizSubmitted] = useState(false);
 
   useEffect(() => {
     fetch(
-      `https://opentdb.com/api.php?amount=5&difficulty=${difficulty}&type=multiple&encode=url3986`
+      `https://opentdb.com/api.php?amount=5&difficulty=${props.difficulty}&type=multiple&encode=url3986`
     )
       .then((response) => response.json())
       .then((data) => formatData(data));
-  }, [difficulty]);
+  }, [props.difficulty]);
 
   function formatData(data) {
     setQuestions(
@@ -65,7 +65,11 @@ export default function Quiz({ difficulty }) {
   return (
     <div className="quiz">
       <div className="questions">{questionElements}</div>
-      <button onClick={submitAnswers}>Submit</button>
+      {isQuizSubmitted ? (
+        <button onClick={props.toggleQuiz}>Play again</button>
+      ) : (
+        <button onClick={submitAnswers}>Check answers</button>
+      )}
     </div>
   );
 }

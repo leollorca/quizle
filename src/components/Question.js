@@ -19,7 +19,6 @@ export default function Question(props) {
     return (
       <Answer
         key={entitled}
-        questionId={props.id}
         entitled={entitled}
         isCorrect={isCorrect}
         isHeld={isHeld}
