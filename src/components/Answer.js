@@ -1,35 +1,27 @@
-export default function Answer({
-  entitled,
-  isCorrect,
-  isHeld,
-  selectAnswer,
-  quizSubmitted,
-}) {
+export default function Answer(props) {
   let answerStyle = {
-    color: isHeld ? "#f1f1f1" : "",
-    backgroundColor: isHeld ? "#772ce8" : "",
+    color: props.isHeld ? "#f1f1f1" : "",
+    backgroundColor: props.isHeld ? "#772ce8" : "",
   };
 
-  if (quizSubmitted) {
-    if ((isHeld && isCorrect) || isCorrect) {
+  if (props.quizSubmitted) {
+    if ((props.isHeld && props.isCorrect) || props.isCorrect) {
       answerStyle = {
         color: "#f1f1f1",
-        border: "1px solid #06d6a0",
         backgroundColor: "#06d6a0",
       };
     }
-    if (isHeld && !isCorrect) {
+    if (props.isHeld && !props.isCorrect) {
       answerStyle = {
         color: "#f1f1f1",
-        border: "1px solid #ef476f",
         backgroundColor: "#ef476f",
       };
     }
   }
 
   return (
-    <li className="answer" style={answerStyle} onClick={selectAnswer}>
-      {unescape(entitled)}
+    <li className="answer" style={answerStyle} onClick={props.selectAnswer}>
+      {unescape(props.entitled)}
     </li>
   );
 }
