@@ -4,6 +4,7 @@ import Question from "./Question";
 export default function Quiz(props) {
   const [questions, setQuestions] = useState([]);
   const [isQuizSubmitted, setIsQuizSubmitted] = useState(false);
+  const [score, setScore] = useState(0);
 
   useEffect(() => {
     fetch(
@@ -68,8 +69,15 @@ export default function Quiz(props) {
   function submitAnswers() {
     let filled = true;
     questions.forEach((question) => {
+      // check is the quiz is filled
       if (!question.answers.find((answer) => answer.isHeld)) {
         filled = false;
+      }
+      // check the score
+      if (
+        question.answers.find((answer) => answer.isHeld && answer.isCorrect)
+      ) {
+        setScore((prevScore) => prevScore + 1);
       }
     });
     if (!filled) {
@@ -80,7 +88,6 @@ export default function Quiz(props) {
 
   const questionElements = questions.map((question) => {
     const { category, entitled, answers } = question;
-
     return (
       <Question
         key={entitled}
@@ -97,7 +104,10 @@ export default function Quiz(props) {
     <div className="quiz">
       <div className="questions">{questionElements}</div>
       {isQuizSubmitted ? (
-        <button onClick={props.toggleQuiz}>Play again</button>
+        <>
+          <button onClick={props.toggleQuiz}>Play again</button>
+          <div>{score}</div>
+        </>
       ) : (
         <button onClick={submitAnswers}>Check answers</button>
       )}
