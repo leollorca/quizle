@@ -21,7 +21,7 @@ export default function Answer(props) {
 
   return (
     <li className="answer" style={answerStyle} onClick={props.selectAnswer}>
-      {props.entitled}
+      {atob(props.entitled)}
     </li>
   );
 }

@@ -9,11 +9,13 @@ export default function Quiz(props) {
 
   useEffect(() => {
     fetch(
-      `https://opentdb.com/api.php?amount=5&difficulty=${props.difficulty}&type=multiple`
+      `https://opentdb.com/api.php?amount=5&difficulty=${props.difficulty}&type=multiple&encode=base64`
     )
       .then((response) => response.json())
       .then((data) => formatData(data));
   }, [props.difficulty]);
+
+  console.log(questions);
 
   function formatData(data) {
     setQuestions(
@@ -51,11 +53,11 @@ export default function Quiz(props) {
       return prevQuestions.map((prevQuestion) => {
         if (
           prevQuestion.answers.find(
-            (answer) => answer.entitled === event.target.innerText
+            (answer) => answer.entitled === btoa(event.target.innerText)
           )
         ) {
           const answers = prevQuestion.answers.map((answer) => {
-            if (event.target.innerText !== answer.entitled) {
+            if (btoa(event.target.innerText) !== answer.entitled) {
               return { ...answer, isHeld: false };
             }
             return { ...answer, isHeld: true };
