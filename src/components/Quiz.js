@@ -3,12 +3,13 @@ import Question from "./Question";
 
 export default function Quiz(props) {
   const [questions, setQuestions] = useState([]);
+  const [isQuizFilled, setIsQuizFilled] = useState(true);
   const [isQuizSubmitted, setIsQuizSubmitted] = useState(false);
   const [score, setScore] = useState(0);
 
   useEffect(() => {
     fetch(
-      `https://the-trivia-api.com/api/questions?limit=5&region=FR&difficulty=${props.difficulty}`
+      `https://opentdb.com/api.php?amount=5&difficulty=${props.difficulty}&type=multiple`
     )
       .then((response) => response.json())
       .then((data) => formatData(data));
@@ -16,12 +17,12 @@ export default function Quiz(props) {
 
   function formatData(data) {
     setQuestions(
-      data.map((question) => {
+      data.results.map((question) => {
         const {
           category,
           question: entitled,
-          correctAnswer,
-          incorrectAnswers,
+          correct_answer: correctAnswer,
+          incorrect_answers: incorrectAnswers,
         } = question;
 
         const answers = incorrectAnswers.map((incorrectAnswer) => {
@@ -69,11 +70,9 @@ export default function Quiz(props) {
   function submitAnswers() {
     let filled = true;
     questions.forEach((question) => {
-      // check is the quiz is filled
       if (!question.answers.find((answer) => answer.isHeld)) {
         filled = false;
       }
-      // check the score
       if (
         question.answers.find((answer) => answer.isHeld && answer.isCorrect)
       ) {
@@ -81,7 +80,8 @@ export default function Quiz(props) {
       }
     });
     if (!filled) {
-      return console.log("Quiz not fully filled!");
+      setScore(0);
+      return setIsQuizFilled(false);
     }
     return setIsQuizSubmitted(true);
   }
@@ -104,12 +104,19 @@ export default function Quiz(props) {
     <div className="quiz">
       <div className="questions">{questionElements}</div>
       {isQuizSubmitted ? (
-        <>
+        <div>
+          <span className="score">
+            You scored {score} correct answer{score > 1 ? "s" : ""}!
+          </span>
           <button onClick={props.toggleQuiz}>Play again</button>
-          <div>{score}</div>
-        </>
+        </div>
       ) : (
-        <button onClick={submitAnswers}>Check answers</button>
+        <div>
+          {!isQuizFilled && (
+            <span className="filled">Please answer all questions !</span>
+          )}
+          <button onClick={submitAnswers}>Check answers</button>
+        </div>
       )}
     </div>
   );
