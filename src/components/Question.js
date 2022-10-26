@@ -22,8 +22,8 @@ export default function Question(props) {
 
   return (
     <div className="question">
-      <div className="category">{props.category}</div>
-      <div className="entitled">{props.entitled}</div>
+      <div className="category">{atob(props.category)}</div>
+      <div className="entitled">{atob(props.entitled)}</div>
       <ul className="answers" style={answersStyle}>
         {answerElements}
       </ul>

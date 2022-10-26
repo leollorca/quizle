@@ -1,7 +1,10 @@
-$font: "Whyte";
+$font: "Circular";
+
+$black: #333;
 $white: #f1f1f1;
 $purple: #772ce8;
 $pastelPurple: #e3d8ee;
+$red: #ef476f;
 
 @font-face {
   font-family: $font;
@@ -84,14 +87,14 @@ $pastelPurple: #e3d8ee;
           .category {
             margin-bottom: 4px;
             font-size: 8px;
-            color: #333;
+            color: $black;
             text-transform: uppercase;
             letter-spacing: 2px;
             opacity: 0.5;
           }
 
           .entitled {
-            color: #333;
+            color: $black;
           }
 
           .answers {
@@ -118,7 +121,7 @@ $pastelPurple: #e3d8ee;
       }
 
       .filled {
-        color: #ef476f;
+        color: $red;
       }
 
       .score,
