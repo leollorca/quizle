@@ -23,7 +23,7 @@ export default function App() {
         <div className="difficulties">
           <input type="submit" value="easy" onClick={handleDifficulty} />
           <input type="submit" value="medium" onClick={handleDifficulty} />
-          <input type="submit" value="hard" onClick={handleDifficulty} />
+          <input type="submit" value="test" onClick={handleDifficulty} />
         </div>
       )}
     </main>
