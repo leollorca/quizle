@@ -65,7 +65,7 @@ $red: #ef476f;
     .quiz {
       display: inline-flex;
       flex-direction: column;
-      justify-content: space-evenly;
+      justify-content: center;
       align-items: flex-start;
       height: 100vh;
 
@@ -130,6 +130,7 @@ $red: #ef476f;
       }
 
       button {
+        margin-top: 64px;
         padding: 8px 20px;
         font-family: $font;
         font-size: 14px;

@@ -9,13 +9,11 @@ export default function Quiz(props) {
 
   useEffect(() => {
     fetch(
-      `https://opentdb.com/api.php?amount=5&difficulty=${props.difficulty}&type=multiple&encode=base64`
+      `https://opentdb.com/api.php?amount=4&difficulty=${props.difficulty}&type=multiple&encode=base64`
     )
       .then((response) => response.json())
       .then((data) => formatData(data));
   }, [props.difficulty]);
-
-  console.log(questions);
 
   function formatData(data) {
     setQuestions(
