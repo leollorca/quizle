@@ -149,3 +149,24 @@ $red: #ef476f;
     }
   }
 }
+
+@media screen and (max-width: 928px) {
+  .quiz {
+    padding: 64px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .quiz {
+    height: auto !important;
+    padding: 64px 32px;
+
+    .questions {
+      margin-bottom: 48px;
+    }
+
+    button {
+      margin-top: 16px !important;
+    }
+  }
+}
